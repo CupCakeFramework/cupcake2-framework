@@ -2,7 +2,7 @@
     "name": "ricardofiorani/cupcake2-framework",
     "description": "Framework PHP CupCake 2",
     "require": {
-        "aura/router": "dev-master",
+        "aura/router": "1.2.0",
         "doctrine/doctrine-bundle": "1.3.*@dev"
     },
     "license": "MIT",
