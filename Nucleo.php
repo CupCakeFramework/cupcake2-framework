@@ -1,5 +1,7 @@
 <?php
 
+namespace backend;
+
 class Nucleo {
 
     const sulfixo_controle = 'control_';
