@@ -3,7 +3,7 @@
     "description": "Framework PHP CupCake 2",
     "require": {
         "aura/router": "1.2.0",
-        "doctrine/doctrine-bundle": "1.3.*@dev"
+        "doctrine/doctrine-bundle": "1.3"
     },
     "license": "MIT",
     "authors": [
