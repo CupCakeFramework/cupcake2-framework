@@ -60,6 +60,8 @@ class CupCore {
         @session_start();
         $this->db = new CupDataBase($this->config['dbParams']);
         $this->router = new CupRouter();
+        $this->seo = new CupSeo($this->db, $this->baseUrl, $this->tituloSite);
+
         if (empty($_GET['a']))
             $_GET['a'] = 'home';
         $this->request = $this->array_to_object($_GET);
