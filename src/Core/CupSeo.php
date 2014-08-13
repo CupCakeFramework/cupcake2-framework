@@ -3,6 +3,7 @@
 namespace CupCake2\Core;
 
 use CupDataBase;
+use CupCake2\Models\Seo;
 
 class CupSeo {
 
@@ -23,6 +24,7 @@ class CupSeo {
 
     public function metatags() {
         $pagina = str_replace($this->baseUrl, '/', $_SERVER['REQUEST_URI']);
+        $this->db->
         $qry = mysql_query('select * from tbl_sys_seo where nome like "' . $pagina . '" or nome like "' . $pagina . '/" limit 1');
         $row = mysql_fetch_assoc($qry);
 
