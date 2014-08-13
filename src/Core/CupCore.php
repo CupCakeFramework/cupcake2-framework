@@ -4,7 +4,7 @@ namespace CupCake2\Core;
 
 use CupCake2\Core\CupRouter;
 use CupCake2\Core\CupDataBase;
-use CupSeo\Core\CupSeo;
+use CupCake2\Core\CupSeo;
 use ReflectionMethod;
 use stdClass;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace CupSeo\Models;
+namespace CupCake2\Models;
 
 use InvalidArgumentException;
 

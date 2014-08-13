@@ -1,12 +1,13 @@
 <?php
 
-namespace CupSeo\Core;
+namespace CupCake2\Core;
 
 use CupCake2\Core\CupDataBase;
 use CupCake2\Models\Seo;
 
 class CupSeo {
 
+    
     /**
      * @var CupDataBase 
      */
