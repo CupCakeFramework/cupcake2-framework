@@ -1,6 +1,6 @@
 <?php
 
-namespace backend;
+namespace CupCake2\Core;
 
 class Nucleo {
 
