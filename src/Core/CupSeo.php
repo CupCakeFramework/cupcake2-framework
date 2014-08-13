@@ -37,13 +37,8 @@ class CupSeo {
     public function metatags() {
         $pagina = str_replace($this->baseUrl, '/', $_SERVER['REQUEST_URI']);
         $metatags = $this->db
-                ->getEntityManager()
-                ->getRepository("CupCake2\Models\Seo")
-                ->createQueryBuilder('o')
-                ->where('o.url = :url')
-                ->setParameter('url', "%$pagina%")
-                ->getQuery()
-                ->getResult();
+                        ->getEntityManager()
+                        ->getRepository("CupCake2\Models\Seo")->findOneBy(array('url' => "%$pagina%"));
         if ($metatags !== null) {
             return $this->montaMetatags($metatags);
         } else {
@@ -52,7 +47,7 @@ class CupSeo {
     }
 
     public function metatagsPadrao() {
-        $metatags = $this->db->getEntityManager()->find('CupCake2\Models\Seo', 1);
+        $metatags = $this->db->buscarUm('CupCake2\Models\Seo', 1);
         return $this->montaMetatags($metatags);
     }
 
