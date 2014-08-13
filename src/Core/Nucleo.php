@@ -13,7 +13,7 @@ class Nucleo {
     public $baseUrl = BASE_URL;
     public $siteUrl = URL_SITE;
     private $site;
-    private $pastaTemplates = 'app/content/templates/';
+    private $pastaTemplates = 'App/Views/Templates/';
     private $pastaViews = 'App/Views/';
     public $titulo;
     public $tituloSite = TITULO_SITE;
