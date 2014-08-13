@@ -7,7 +7,6 @@ use CupCake2\Models\Seo;
 
 class CupSeo {
 
-    
     /**
      * @var CupDataBase 
      */
@@ -37,7 +36,10 @@ class CupSeo {
 
     public function metatags() {
         $pagina = str_replace($this->baseUrl, '/', $_SERVER['REQUEST_URI']);
-        $metatags = $em->getRepository("CupCake2\Models\Seo")->createQueryBuilder('o')
+        $metatags = $this->db
+                ->getEntityManager()
+                ->getRepository("CupCake2\Models\Seo")
+                ->createQueryBuilder('o')
                 ->where('o.url = :url')
                 ->setParameter('url', "%$pagina%")
                 ->getQuery()
