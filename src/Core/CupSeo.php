@@ -7,6 +7,8 @@ use CupCake2\Models\Seo;
 
 class CupSeo {
 
+    const EntidadeCupSeo = "CupCake2\Models\Seo";
+
     /**
      * @var CupDataBase 
      */
@@ -38,7 +40,7 @@ class CupSeo {
         $pagina = str_replace($this->baseUrl, '/', $_SERVER['REQUEST_URI']);
         $metatags = $this->db
                         ->getEntityManager()
-                        ->getRepository("CupCake2\Models\Seo")->findOneBy(array('url' => "%$pagina%"));
+                        ->getRepository(self::EntidadeCupSeo)->findOneBy(array('url' => "$pagina"));
         if ($metatags !== null) {
             return $this->montaMetatags($metatags);
         } else {
@@ -47,7 +49,7 @@ class CupSeo {
     }
 
     public function metatagsPadrao() {
-        $metatags = $this->db->buscarUm('CupCake2\Models\Seo', 1);
+        $metatags = $this->db->buscarUm(self::EntidadeCupSeo, 1);
         return $this->montaMetatags($metatags);
     }
 
