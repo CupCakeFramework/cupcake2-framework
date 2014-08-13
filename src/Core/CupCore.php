@@ -26,17 +26,21 @@ class CupCore {
     public $config;
 
     /**
-     * ORM do CupCake 2
      * @var CupDataBase 
      */
     public $db;
 
+    /**
+     * @var CupSeo 
+     */
+    public $seo;
+
     public function __construct(array $config) {
-        $this->config = $config;
-        $this->loadConfig();
+        $this->loadConfig($config);
     }
 
-    public function loadConfig() {
+    public function loadConfig($config) {
+        $this->config = $config;
         if (!empty($this->config['BASE_URL'])) {
             $this->baseUrl = $this->config['BASE_URL'];
         }
@@ -107,61 +111,6 @@ class CupCore {
     public function resetUrlRetorno() {
         $this->setUrlRetorno();
     }
-
-    public function tags($tabela) {
-        $sSql = "SELECT lower(tags) as tags FROM " . $tabela . ' where ativo = "Sim"';
-        $resultado = mysql_query($sSql);
-        // agora pegamos a resposta de nosso sql e transformamo em um array, que tem como índice as tags que usaremos e como valor as quantidades
-        if (mysql_num_rows($resultado) == 0) {
-            return '';
-        } else {
-            while ($row = mysql_fetch_array($resultado)) {
-                $tgs = explode(';', $row['tags']);
-                foreach ($tgs as $key => $value) {
-                    if (!isset($array_tags)) {
-                        $array_tags = array(ltrim($value));
-                    } else {
-                        array_push($array_tags, ltrim($value));
-                    }
-                }
-            }
-        }
-        $tags_nome = array_unique($array_tags, SORT_STRING);
-        $tags_qtd = array_count_values($array_tags);
-        foreach ($array_tags as $key => $value) {
-            $tags[$value] = $tags_qtd[$value];
-            //por exemplo poderíamos montar um array de IDs se necessário da mesma forma $id[$row['tag']] = = $row['id'];
-        }
-        // Aqui setamos os tamanhos das fontes, usando porcentagens
-        $max = 350; // máximo %
-        $min = 100; // mínimo %
-        // pegamos o maior e o menor número de vezes que as palavras aparecem pela quantidade no array
-        $max_qtd = max(array_values($tags));
-        $min_qtd = min(array_values($tags));
-        // achamos a variação nos valores
-        $variacao = $max_qtd - $min_qtd;
-        if (0 == $variacao) // pra evitar divisão por 0
-            $variacao = 1;
-        // determinamos os incrementos nos tamanhos das fontes
-        // sempre respeitando a quantidade de vezes que a tag aparecer
-        $passo = ($max - $min) / ($variacao);
-        //Navegando pelo array
-        foreach ($tags as $key => $value) {
-            // calculando o tamanho da fonte para o CSS
-            $tam = $min + (($value - $min_qtd) * $passo);
-            // No lugar de # vc coloca o caminho caso queira abrir algum caminho com a tag
-            // Agora divirta-se e formate a saída da forma que achar conveniente
-            $retorno[$i] = '<a href="' . BASE_URL . 'busca/' . urlencode($key) . '" style="font-size: ' . $tam . '%">';
-            $retorno[$i] .= utf8_encode($key) . '</a> ';
-            $i++;
-            //caso tivéssemos montado nosso array de ID poderíamos fazer assim
-            //$id[key] lhe daria o ID da tag atual por exemplo
-        }
-        return array('registros' => $retorno, 'sql' => $sSql, 'tags_nome' => $tags_nome, 'tags_qtd' => $tags_qtd, 'array_tags' => $array_tags);
-    }
-
-    /* Função de retorno padrão------------------------------------------------------------------------------------------ */
-    /*     * ************************------------------------------------------------------------------------------------------ */
 
     public function retornoRegistroPadrao($tabela, $url = '', $pagina = 1, $qtd_registros = 0, $where_custom = 'where ativo = "Sim"', $campo_ordem = 'ordem', $campo_group = '') {
         //Adaptação do Where_Custom para array
@@ -435,32 +384,6 @@ class CupCore {
         return !empty($tmp);
     }
 
-    /* Função padrão para API do Flickr------------------------------------------------------------------------------------------ */
-
-    public function retornaGaleriaflickr() {
-        $site = site_dados();
-        require_once("flickr/phpFlickr.php");
-        $f = new phpFlickr("KEY", "SECRET");
-        $person = $f->people_findByUsername($flickr_channel);
-        // Get the friendly URL of the user's photos
-        $photos_url = $f->urls_getUserPhotos($person['id']);
-        // Get the user's first 36 public photos
-        $photos = $f->people_getPublicPhotos($person['id'], NULL, NULL, 9);
-        $i = 0;
-        foreach ((array) $photos['photos']['photo'] as $photo) {
-            $retorno[$i]['photo'] = $photo;
-            $retorno[$i]['photos_url'] = $photos_url;
-            $retorno[$i]['url']['square'] = $f->buildPhotoURL($photo, "square");
-            $retorno[$i]['url']['thumbnail'] = $f->buildPhotoURL($photo, "thumbnail");
-            $retorno[$i]['url']['small'] = $f->buildPhotoURL($photo, "small");
-            $retorno[$i]['url']['medium'] = $f->buildPhotoURL($photo, "medium");
-            $retorno[$i]['url']['large'] = $f->buildPhotoURL($photo, "large");
-            $retorno[$i]['url']['original'] = $f->buildPhotoURL($photo, "original");
-            $i++;
-        }
-        return $retorno;
-    }
-
     /* Funçoes referentes a redirecionamento------------------------------------------------------------------------------------------ */
 
     public function redirect($url, $interno = true) {
@@ -641,8 +564,6 @@ class CupCore {
         }
         return $dados;
     }
-
-    
 
     public function renderizar($nomeView, $variaveis = array(), $retornar = false) {
         if (!is_array($variaveis)) {
@@ -1076,18 +997,6 @@ bsaaaaaaaceeeeiiiidnoooooouuuyybyRr';
     }
 
     /*
-     * 
-     * SEÇÃO MESTRE - > MÉTODOS ESTÁTICOS AUXILIARES DO PAGSEGURO
-     * 
-     */
-
-    public static function pagSeguro($campo) {
-        $qry = mysql_query('select ' . $campo . '_pagseguro from tbl_sys_config limit 1;');
-        $dados = mysql_fetch_assoc($qry);
-        return $dados[$campo . '_pagseguro'];
-    }
-
-    /*
      * Erros
      */
 
@@ -1096,113 +1005,6 @@ bsaaaaaaaceeeeiiiidnoooooouuuyybyRr';
         header("Status: 404 Not Found");
         $_SERVER['REDIRECT_STATUS'] = 404;
         $this->renderizar('nao_existe');
-    }
-
-    /*
-     * Upload de fotos
-     */
-
-    public function uploadImagem($arquivo, $larguraMax, $alturaMax, $destino, $nome_destino) {
-        //----------------------------------------------------------------
-        // Crop-to-fit PHP-GD
-        // Revision 2 [2009-06-]
-        // Corrected aspect ratio of the output image
-        //----------------------------------------------------------------
-
-        $source_path = $arquivo['tmp_name'];
-
-
-        list( $source_width, $source_height, $source_type ) = getimagesize($source_path);
-
-        switch ($source_type) {
-            case IMAGETYPE_GIF:
-                $source_gdim = imagecreatefromgif($source_path);
-                break;
-
-            case IMAGETYPE_JPEG:
-                $source_gdim = imagecreatefromjpeg($source_path);
-                break;
-
-            case IMAGETYPE_PNG:
-                $source_gdim = imagecreatefrompng($source_path);
-                break;
-        }
-
-        $source_gdim = $this->imagetranstowhite($source_gdim);
-
-        $source_aspect_ratio = $source_width / $source_height;
-        $desired_aspect_ratio = $larguraMax / $alturaMax;
-
-        if ($source_aspect_ratio > $desired_aspect_ratio) {
-            $temp_height = $alturaMax;
-            $temp_width = (int) ( $alturaMax * $source_aspect_ratio );
-        } else {
-            $temp_width = $larguraMax;
-            $temp_height = (int) ( $larguraMax / $source_aspect_ratio );
-        }
-
-        //
-        // Resize the image into a temporary GD image
-        //
-
-  $temp_gdim = imagecreatetruecolor($temp_width, $temp_height);
-        imagecopyresampled(
-                $temp_gdim, $source_gdim, 0, 0, 0, 0, $temp_width, $temp_height, $source_width, $source_height
-        );
-
-        //
-        // Copy cropped region from temporary image into the desired GD image
-        //
-
-    $x0 = ( $temp_width - $larguraMax ) / 2;
-        $y0 = ( $temp_height - $alturaMax ) / 2;
-
-        $desired_gdim = imagecreatetruecolor($larguraMax, $alturaMax);
-        imagecopy(
-                $desired_gdim, $temp_gdim, 0, 0, $x0, $y0, $larguraMax, $alturaMax
-        );
-
-        //
-        // Render the image
-        // Alternatively, you can save the image in file-system or database
-        //
-
-    //header('Content-type: image/jpeg');
-        //imagejpeg($desired_gdim);
-
-        imagejpeg($desired_gdim, $destino . $nome_destino, 100);
-
-        //
-        // Add clean-up code here
-//
-    }
-
-    public function imagetranstowhite($trans) {
-        // Create a new true color image with the same size
-        $w = imagesx($trans);
-        $h = imagesy($trans);
-        $white = imagecreatetruecolor($w, $h);
-
-        // Fill the new image with white background
-        $bg = imagecolorallocate($white, 255, 255, 255);
-        imagefill($white, 0, 0, $bg);
-
-        // Copy original transparent image onto the new image
-        imagecopy($white, $trans, 0, 0, 0, 0, $w, $h);
-        return $white;
-    }
-
-    public function encodeSEOString($string) {
-        $string = preg_replace("`\[.*\]`U", "", $string);
-        $string = preg_replace('`&(amp;)?#?[a-z0-9]+;`i', '-', $string);
-        $string = htmlentities($string, ENT_COMPAT, 'utf-8');
-        $string = preg_replace("`&([a-z])(acute|uml|circ|grave|ring|cedil|slash|tilde|caron|lig|quot|rsquo);`i", "\\1", $string);
-        $string = preg_replace(array("`[^a-z0-9]`i", "`[-]+`"), "-", $string);
-        return strtolower(trim($string, '-'));
-    }
-
-    public function decodeSEOString($string) {
-        return str_replace('-', ' ', $string);
     }
 
 }

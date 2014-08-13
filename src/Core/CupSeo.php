@@ -2,7 +2,24 @@
 
 namespace CupCake2\Core;
 
-class CupSeo extends CupCore{
+use CupDataBase;
+
+class CupSeo {
+
+    /**
+     * @var CupDataBase 
+     */
+    private $db;
+
+    /**
+     * @var string
+     */
+    private $baseUrl;
+
+    function __construct(CupDataBase $db, $baseUrl) {
+        $this->db = $db;
+        $this->baseUrl = $baseUrl;
+    }
 
     public function metatags() {
         $pagina = str_replace($this->baseUrl, '/', $_SERVER['REQUEST_URI']);
@@ -54,6 +71,19 @@ class CupSeo extends CupCore{
                     })();
                 </script>";
         }
+    }
+
+    public function encodeSEOString($string) {
+        $string = preg_replace("`\[.*\]`U", "", $string);
+        $string = preg_replace('`&(amp;)?#?[a-z0-9]+;`i', '-', $string);
+        $string = htmlentities($string, ENT_COMPAT, 'utf-8');
+        $string = preg_replace("`&([a-z])(acute|uml|circ|grave|ring|cedil|slash|tilde|caron|lig|quot|rsquo);`i", "\\1", $string);
+        $string = preg_replace(array("`[^a-z0-9]`i", "`[-]+`"), "-", $string);
+        return strtolower(trim($string, '-'));
+    }
+
+    public function decodeSEOString($string) {
+        return str_replace('-', ' ', $string);
     }
 
 }
