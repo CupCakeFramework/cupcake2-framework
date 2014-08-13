@@ -1,6 +1,6 @@
 <?php
 
-namespace CupCake2\Core;
+namespace CupSeo\Core;
 
 use CupCake2\Core\CupDataBase;
 use CupCake2\Models\Seo;
@@ -36,10 +36,10 @@ class CupSeo {
 
     public function metatags() {
         $pagina = str_replace($this->baseUrl, '/', $_SERVER['REQUEST_URI']);
-        $dql = "SELECT s FROM CupCake2\Models\Seo s WHERE s.url like '%?1%'";
-        $metatags = $this->db->getEntityManager()->createQuery($dql)
-                ->setParameter(1, $pagina)
-                ->setMaxResults(1)
+        $metatags = $em->getRepository("CupCake2\Models\Seo")->createQueryBuilder('o')
+                ->where('o.url = :url')
+                ->setParameter('url', "%$pagina%")
+                ->getQuery()
                 ->getResult();
         if ($metatags !== null) {
             return $this->montaMetatags($metatags);

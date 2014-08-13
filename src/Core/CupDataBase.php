@@ -30,6 +30,9 @@ class CupDataBase {
         return $this->getEntityManager()->getRepository($entidade)->findAll();
     }
 
+    /**
+     * @return Doctrine\ORM\EntityManager
+     */
     public function getEntityManager() {
         return $this->entityManager;
     }
