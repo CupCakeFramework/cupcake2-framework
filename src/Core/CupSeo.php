@@ -2,7 +2,7 @@
 
 namespace CupCake2\Core;
 
-use CupDataBase;
+use CupCake2\Core\CupDataBase;
 use CupCake2\Models\Seo;
 
 class CupSeo {
@@ -17,40 +17,50 @@ class CupSeo {
      */
     private $baseUrl;
 
-    function __construct(CupDataBase $db, $baseUrl) {
+    /**
+     * @var string 
+     */
+    private $tituloSite;
+
+    /**
+     *
+     * @var string 
+     */
+    public $titulo;
+
+    function __construct(CupDataBase $db, $baseUrl, $tituloSite) {
         $this->db = $db;
         $this->baseUrl = $baseUrl;
+        $this->tituloSite = $tituloSite;
     }
 
     public function metatags() {
         $pagina = str_replace($this->baseUrl, '/', $_SERVER['REQUEST_URI']);
-        $this->db->
-        $qry = mysql_query('select * from tbl_sys_seo where nome like "' . $pagina . '" or nome like "' . $pagina . '/" limit 1');
-        $row = mysql_fetch_assoc($qry);
-
-        $info = $this->arrayToUtf8($row);
-        if (!empty($info)) {
-            return $this->montaMetatags($info);
+        $dql = "SELECT s FROM Seo s WHERE s.url like '%?1%'";
+        $metatags = $this->db->createQuery($dql)
+                ->setParameter(1, $pagina)
+                ->setMaxResults(1)
+                ->getResult();
+        if ($metatags !== null) {
+            return $this->montaMetatags($metatags);
         } else {
             return $this->metatagsPadrao();
         }
     }
 
     public function metatagsPadrao() {
-        $qry = mysql_query('select * from tbl_sys_seo where id = 1 limit 1');
-        $d = $this->arrayToUtf8(mysql_fetch_assoc($qry));
-        $d['seo_title'] .= ' - ' . $this->titulo;
-        return $this->montaMetatags($d);
+        $metatags = $this->db->find('Seo', 1);
+        return $this->montaMetatags($metatags);
     }
 
-    public function montaMetatags($d) {
+    public function montaMetatags(Seo $metatags) {
         $retorno = '<title>' . $this->tituloSite;
         if (!empty($this->titulo)) {
             $retorno .= ' - ' . $this->titulo;
         }
         $retorno .= '</title>';
-        $retorno .= '<meta name="Keywords" content="' . $d['seo_keywords'] . '"/>';
-        $retorno .= '<meta name="Description" content="' . $d['seo_description'] . '"/>';
+        $retorno .= '<meta name="Keywords" content="' . $metatags->getKeywords() . '"/>';
+        $retorno .= '<meta name="Description" content="' . $metatags->getDescription() . '"/>';
         $retorno .= '<meta name="Robots" content="ALL"/>';
         $retorno .= '<meta name="Robots" content="INDEX,FOLLOW"/>';
         $retorno .= '<meta name="Revisit-After" content="1 Days"/>';

@@ -9,7 +9,7 @@ class CupDataBase {
 
     /**
      * EntityManager do Projeto 
-     * @var EntityManager 
+     * @var Doctrine\ORM\EntityManager 
      */
     public $entityManager;
 
