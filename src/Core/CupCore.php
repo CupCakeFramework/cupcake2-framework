@@ -5,12 +5,11 @@ namespace CupCake2\Core;
 use CupCake2\Core\CupRouter;
 use CupCake2\Core\CupDataBase;
 use CupCake2\Core\CupSeo;
-use ReflectionMethod;
+use CupCake2\Core\CupRequestDispatcher;
 use stdClass;
 
 class CupCore {
 
-    const sulfixo_controle = 'control_';
 
     public $baseUrl;
     public $siteUrl;
@@ -62,38 +61,8 @@ class CupCore {
         $this->db = new CupDataBase($this->config['dbParams']);
         $this->router = new CupRouter();
         $this->seo = new CupSeo($this->db, $this->baseUrl, $this->tituloSite);
-
-        if (empty($_GET['a']))
-            $_GET['a'] = 'home';
-        $this->request = $this->array_to_object($_GET);
-        $paginaSolicitada = str_replace('-', '_', $_GET['a']);
+        $this->dispatcher = new CupRequestDispatcher;
         $this->publicAssetsUrl = $this->url(array('public_assets'));
-        if (empty($paginaSolicitada))
-            $paginaSolicitada = 'home';
-        $this->paginaAtual = $_GET['a'];
-        $acao = self::sulfixo_controle . $paginaSolicitada;
-        if (method_exists($this, $acao)) {
-            $reflection = new ReflectionMethod($this, $acao);
-            $qtdArgumentos = $reflection->getNumberOfParameters();
-            $parametros = array();
-            $i = 0;
-            foreach ($_GET as $key => $value) {
-                if (!empty($value) && $key != 'a' && $i <= $qtdArgumentos)
-                    $parametros[$i] = $value;
-                $i++;
-            }
-
-            if (count($parametros) < $qtdArgumentos) {
-                $i = $qtdArgumentos - count($parametros);
-                for ($index = 0; $index < $i; $index++) {
-                    $parametros[$index + count($parametros) + 1] = '';
-                }
-            }
-
-            call_user_func_array(array($this, $acao), $parametros);
-        } else {
-            $this->erro_404();
-        }
     }
 
     public function site() {

@@ -69,12 +69,11 @@ class CupSeo {
         return $retorno;
     }
 
-    public function analytics() {
-        $d = $this->siteDados();
+    public function analytics($idAnalytics) {
         if (!empty($d['script_analytics'])) {
             return "<script type=\"text/javascript\">
                     var _gaq = _gaq || [];
-                    _gaq.push(['_setAccount', '" . $d['script_analytics'] . "']);
+                    _gaq.push(['_setAccount', '" . $idAnalytics . "']);
                     _gaq.push(['_trackPageview']);
                     (function() {
                         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
