@@ -1,6 +1,7 @@
 <?php
 
 namespace CupCake2\Core;
+use CupCake2\Core\Router;
 
 class Nucleo {
 
@@ -17,12 +18,14 @@ class Nucleo {
     public $paginaAtual;
     public $request;
     public $publicAssetsUrl;
+    public $router;
 
     public function __construct() {
         @session_start();
     }
 
     public function inicializar() {
+        $this->router = new Router();
         if (empty($_GET['a']))
             $_GET['a'] = 'home';
         $this->request = $this->array_to_object($_GET);

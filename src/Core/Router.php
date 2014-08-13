@@ -13,7 +13,7 @@ class Router {
                     $_GET[$inputs[$key]] = $value;
             }
         }
-        /* Inicialização - Evitar sql inject */
+
         foreach ($_POST as $key => $input_arr) {
             if (!is_array($_POST[$key])) {
                 $_POST[$key] = addslashes($input_arr);
