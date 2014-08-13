@@ -5,7 +5,7 @@ namespace CupCake2\Core;
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
 
-class CupORM {
+class CupDataBase {
 
     /**
      * EntityManager do Projeto 
@@ -17,6 +17,14 @@ class CupORM {
         $paths = array("/App/Models");
         $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
         $this->entityManager = EntityManager::create($dbParams, $config);
+    }
+
+    public function buscarUm($entidade, $id) {
+        return $this->entityManager->find($entidade, $id);
+    }
+
+    public function buscarTodos($entidade) {
+        return $this->entityManager->getRepository($entidade)->findAll();
     }
 
 }

@@ -3,13 +3,14 @@
 namespace CupCake2\Core;
 
 use CupCake2\Core\Router;
-use CupCake2\Core\CupORM;
+use CupCake2\Core\CupDataBase;
 use ReflectionMethod;
 use stdClass;
 
 class Nucleo {
 
     const sulfixo_controle = 'control_';
+
     public $baseUrl;
     public $siteUrl;
     private $site;
@@ -23,6 +24,11 @@ class Nucleo {
     public $publicAssetsUrl;
     public $router;
     public $config;
+
+    /**
+     * ORM do CupCake 2
+     * @var CupDataBase 
+     */
     public $db;
 
     public function __construct(array $config) {
@@ -48,7 +54,7 @@ class Nucleo {
 
     public function inicializar() {
         @session_start();
-        $this->db = new CupORM($this->config['dbParams']);
+        $this->db = new CupDataBase($this->config['dbParams']);
         $this->router = new Router();
         if (empty($_GET['a']))
             $_GET['a'] = 'home';
