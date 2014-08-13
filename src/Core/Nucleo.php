@@ -48,7 +48,7 @@ class Nucleo {
 
     public function inicializar() {
         @session_start();
-        $this->db = new CupORM($this->config['database']);
+        $this->db = new CupORM($this->config['dbParams']);
         $this->router = new Router();
         if (empty($_GET['a']))
             $_GET['a'] = 'home';
