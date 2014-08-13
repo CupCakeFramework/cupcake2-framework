@@ -3,6 +3,8 @@
 namespace CupCake2\Core;
 
 use CupCake2\Core\Router;
+use ReflectionMethod;
+use stdClass;
 
 class Nucleo {
 
@@ -12,7 +14,7 @@ class Nucleo {
     public $siteUrl = URL_SITE;
     private $site;
     private $pastaTemplates = 'app/content/templates/';
-    private $pastaViews = 'app/content/views/';
+    private $pastaViews = 'App/Views/';
     public $titulo;
     public $tituloSite = TITULO_SITE;
     public $template;
@@ -894,7 +896,7 @@ bsaaaaaaaceeeeiiiidnoooooouuuyybyRr';
 
     public function array_to_object($array) {
         if (!empty($array)) {
-            $obj = new \stdClass;
+            $obj = new stdClass;
             foreach ((array) $array as $k => $v) {
                 if (is_array($v)) {
                     $obj->{$k} = $this->array_to_object($v); //RECURSION
