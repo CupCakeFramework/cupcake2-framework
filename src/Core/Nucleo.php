@@ -3,33 +3,52 @@
 namespace CupCake2\Core;
 
 use CupCake2\Core\Router;
+use CupCake2\Core\CupORM;
 use ReflectionMethod;
 use stdClass;
 
 class Nucleo {
 
     const sulfixo_controle = 'control_';
-
-    public $baseUrl = BASE_URL;
-    public $siteUrl = URL_SITE;
+    public $baseUrl;
+    public $siteUrl;
     private $site;
     private $pastaTemplates = 'App/Views/Templates/';
     private $pastaViews = 'App/Views/';
     public $titulo;
-    public $tituloSite = TITULO_SITE;
+    public $tituloSite;
     public $template;
     public $paginaAtual;
     public $request;
     public $publicAssetsUrl;
     public $router;
     public $config;
+    public $db;
 
     public function __construct(array $config) {
         $this->config = $config;
-        @session_start();
+        $this->loadConfig();
+    }
+
+    public function loadConfig() {
+        if (!empty($this->config['BASE_URL'])) {
+            $this->baseUrl = $this->config['BASE_URL'];
+        }
+        if (!empty($this->config['SITE_URL'])) {
+            $this->siteUrl = $this->config['SITE_URL'];
+        }
+        if (!empty($this->config['TITULO_SITE'])) {
+            $this->tituloSite = $this->config['TITULO_SITE'];
+        }
+
+        if (empty($this->baseUrl) || empty($this->siteUrl) || empty($this->tituloSite)) {
+            die('Por favor configure seu arquivo "Config/main.php" corretamente');
+        }
     }
 
     public function inicializar() {
+        @session_start();
+        $this->db = new CupORM($this->config['database']);
         $this->router = new Router();
         if (empty($_GET['a']))
             $_GET['a'] = 'home';
