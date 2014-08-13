@@ -1,6 +1,7 @@
 <?php
 
 namespace CupCake2\Core;
+
 use CupCake2\Core\Router;
 
 class Nucleo {
@@ -19,8 +20,10 @@ class Nucleo {
     public $request;
     public $publicAssetsUrl;
     public $router;
+    public $config;
 
-    public function __construct() {
+    public function __construct(array $config) {
+        $this->config = $config;
         @session_start();
     }
 
@@ -891,7 +894,7 @@ bsaaaaaaaceeeeiiiidnoooooouuuyybyRr';
 
     public function array_to_object($array) {
         if (!empty($array)) {
-            $obj = new stdClass;
+            $obj = new \stdClass;
             foreach ((array) $array as $k => $v) {
                 if (is_array($v)) {
                     $obj->{$k} = $this->array_to_object($v); //RECURSION
