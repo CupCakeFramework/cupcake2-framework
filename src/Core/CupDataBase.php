@@ -11,7 +11,7 @@ class CupDataBase {
      * EntityManager do Projeto 
      * @var Doctrine\ORM\EntityManager 
      */
-    public $entityManager;
+    private $entityManager;
 
     public function __construct(array $dbParams, $isDevMode = false) {
         $paths = array(
@@ -23,11 +23,15 @@ class CupDataBase {
     }
 
     public function buscarUm($entidade, $id) {
-        return $this->entityManager->find($entidade, $id);
+        return $this->getEntityManager()->find($entidade, $id);
     }
 
     public function buscarTodos($entidade) {
-        return $this->entityManager->getRepository($entidade)->findAll();
+        return $this->getEntityManager()->getRepository($entidade)->findAll();
+    }
+
+    public function getEntityManager() {
+        return $this->entityManager;
     }
 
 }

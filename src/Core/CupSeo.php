@@ -37,7 +37,7 @@ class CupSeo {
     public function metatags() {
         $pagina = str_replace($this->baseUrl, '/', $_SERVER['REQUEST_URI']);
         $dql = "SELECT s FROM Seo s WHERE s.url like '%?1%'";
-        $metatags = $this->db->createQuery($dql)
+        $metatags = $this->db->getEntityManager()->createQuery($dql)
                 ->setParameter(1, $pagina)
                 ->setMaxResults(1)
                 ->getResult();
@@ -49,7 +49,7 @@ class CupSeo {
     }
 
     public function metatagsPadrao() {
-        $metatags = $this->db->find('Seo', 1);
+        $metatags = $this->db->getEntityManager()->find('Seo', 1);
         return $this->montaMetatags($metatags);
     }
 
