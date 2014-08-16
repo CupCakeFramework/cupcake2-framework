@@ -2,7 +2,7 @@
 
 namespace CupCake2\Core;
 
-use \Exception;
+use Exception;
 
 class CupRenderer {
 
