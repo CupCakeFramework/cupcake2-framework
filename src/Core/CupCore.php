@@ -66,7 +66,7 @@ class CupCore {
         $this->renderer = new CupRenderer();
         $this->db = new CupDataBase($this->config['dbParams']);
         $this->router = new CupRouter();
-        $this->request = new CupRequestDispatcher();
+        $this->request = new CupRequestDispatcher($this->renderer);
         $this->seo = new CupSeo($this->db, $this->baseUrl, $this->tituloSite);
         ob_end_flush();
     }
