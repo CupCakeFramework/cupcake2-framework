@@ -17,7 +17,7 @@ class CupRenderer {
 
         $view = $this->pastaViews . $nomeView . '.php';
         if (!file_exists($view)) {
-            $view = 'app/content/sys_views/' . $nomeView . '.php';
+            $view = 'Views/' . $nomeView . '.php';
             if (!file_exists($view)) {
                 throw new Exception("A View $view não foi encontrada");
             }
