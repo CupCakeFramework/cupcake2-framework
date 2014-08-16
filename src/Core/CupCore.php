@@ -52,7 +52,7 @@ class CupCore {
     public function __construct(array $config) {
         $this->loadConfig($config);
         $this->publicAssetsUrl = $this->url(array('public_assets'));
-        $this->renderer = new CupRenderer();
+        $this->renderer = new CupRenderer($this);
         $this->db = new CupDataBase($this->config['dbParams']);
         $this->router = new CupRouter();
         $this->seo = new CupSeo($this->db, $this->baseUrl, $this->tituloSite);

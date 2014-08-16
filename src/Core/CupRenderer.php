@@ -10,6 +10,15 @@ class CupRenderer {
     private $pastaViews = 'app/views/';
     public $template;
 
+    /**
+     * @var SiteController 
+     */
+    public $app;
+
+    function __construct($app) {
+        $this->app = $app;
+    }
+
     public function renderizar($nomeView, $variaveis = array(), $retornar = false) {
         if (!is_array($variaveis)) {
             throw new Exception("Variável ''$variaveis'' não é um array.");
