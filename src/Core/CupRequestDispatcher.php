@@ -2,6 +2,8 @@
 
 namespace CupCake2\Core;
 
+use CupCake2\Core\CupRenderer;
+
 class CupRequestDispatcher {
 
     const sulfixo_controle = 'control_';
@@ -10,7 +12,12 @@ class CupRequestDispatcher {
     public $paginaAtual;
     public $request;
 
-    function __construct() {
+    /**
+     * @var CupRenderer 
+     */
+    public $renderer;
+
+    function __construct(CupRenderer $renderer) {
         $this->request = $_GET;
         if (empty($this->request['a'])) {
             $this->request['a'] = 'home';
@@ -49,7 +56,17 @@ class CupRequestDispatcher {
         header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found");
         header("Status: 404 Not Found");
         $_SERVER['REDIRECT_STATUS'] = 404;
-        $this->renderizar('nao_existe');
+        $this->renderer->renderizar('nao_existe');
+    }
+
+    public function redirect($url, $interno = true) {
+        //Caso parametro URL esteja em branco será redirecionado para a raíz (Home)
+        if ($interno) {
+            header('Location: ' . BASE_URL . $url);
+        } else {
+            header('Location: ' . $url);
+        }
+        exit;
     }
 
 }
