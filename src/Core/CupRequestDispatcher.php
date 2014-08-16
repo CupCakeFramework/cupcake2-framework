@@ -45,4 +45,11 @@ class CupRequestDispatcher {
         }
     }
 
+    public function erro_404() {
+        header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found");
+        header("Status: 404 Not Found");
+        $_SERVER['REDIRECT_STATUS'] = 404;
+        $this->renderizar('nao_existe');
+    }
+
 }

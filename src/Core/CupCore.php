@@ -61,7 +61,7 @@ class CupCore {
         $this->db = new CupDataBase($this->config['dbParams']);
         $this->router = new CupRouter();
         $this->seo = new CupSeo($this->db, $this->baseUrl, $this->tituloSite);
-        $this->dispatcher = new CupRequestDispatcher;
+        $this->request = new CupRequestDispatcher();
         $this->publicAssetsUrl = $this->url(array('public_assets'));
     }
 
@@ -972,11 +972,6 @@ bsaaaaaaaceeeeiiiidnoooooouuuyybyRr';
      * Erros
      */
 
-    public function erro_404() {
-        header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found");
-        header("Status: 404 Not Found");
-        $_SERVER['REDIRECT_STATUS'] = 404;
-        $this->renderizar('nao_existe');
-    }
+    
 
 }
