@@ -13,11 +13,12 @@ class CupController extends CupCore {
         return parent::inicializar();
     }
 
-    public function renderizar($nomeView, $variaveis, $retornar) {
+    public function renderizar($nomeView, $variaveis = array(), $retornar = false) {
+        $variaveis['this'] = $this;
         return $this->renderer->renderizar($nomeView, $variaveis, $retornar);
     }
 
-    public function renderizarParcial($nomeView, $variaveis, $retornar) {
+    public function renderizarParcial($nomeView, $variaveis = array(), $retornar = false) {
         return $this->renderer->renderizarParcial($nomeView, $variaveis, $retornar);
     }
 
