@@ -2,6 +2,8 @@
 
 namespace CupCake2\Core;
 
+use \Exception;
+
 class CupRenderer {
 
     private $pastaTemplates = 'App/Views/Templates/';
