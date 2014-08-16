@@ -18,7 +18,29 @@ class CupRequestDispatcher {
     public $renderer;
 
     function __construct(CupRenderer $renderer) {
+        $this->renderer = $renderer;
         $this->request = $_GET;
+        $this->run();
+    }
+
+    public function erro_404() {
+        header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found");
+        header("Status: 404 Not Found");
+        $_SERVER['REDIRECT_STATUS'] = 404;
+        $this->renderer->renderizar('nao_existe');
+    }
+
+    public function redirect($url, $interno = true) {
+        //Caso parametro URL esteja em branco será redirecionado para a raíz (Home)
+        if ($interno) {
+            header('Location: ' . BASE_URL . $url);
+        } else {
+            header('Location: ' . $url);
+        }
+        exit;
+    }
+
+    public function run() {
         if (empty($this->request['a'])) {
             $this->request['a'] = 'home';
         }
@@ -50,23 +72,6 @@ class CupRequestDispatcher {
         } else {
             $this->erro_404();
         }
-    }
-
-    public function erro_404() {
-        header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found");
-        header("Status: 404 Not Found");
-        $_SERVER['REDIRECT_STATUS'] = 404;
-        $this->renderer->renderizar('nao_existe');
-    }
-
-    public function redirect($url, $interno = true) {
-        //Caso parametro URL esteja em branco será redirecionado para a raíz (Home)
-        if ($interno) {
-            header('Location: ' . BASE_URL . $url);
-        } else {
-            header('Location: ' . $url);
-        }
-        exit;
     }
 
 }
