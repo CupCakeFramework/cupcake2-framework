@@ -14,7 +14,7 @@ class CupController extends CupCore {
     }
 
     public function renderizar($nomeView, $variaveis = array(), $retornar = false) {
-        $variaveis['this'] = $this;
+        $variaveis['app'] = $this;
         return $this->renderer->renderizar($nomeView, $variaveis, $retornar);
     }
 
