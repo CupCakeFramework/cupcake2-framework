@@ -15,8 +15,12 @@ class CupCore {
     public $titulo;
     public $tituloSite;
     public $publicAssetsUrl;
-    public $router;
     public $config;
+
+    /**
+     * @var CupRouter 
+     */
+    public $router;
 
     /**
      * @var CupRequestDispatcher 
@@ -40,6 +44,12 @@ class CupCore {
 
     public function __construct(array $config) {
         $this->loadConfig($config);
+        $this->publicAssetsUrl = $this->url(array('public_assets'));
+        $this->renderer = new CupRenderer();
+        $this->db = new CupDataBase($this->config['dbParams']);
+        $this->router = new CupRouter();
+        $this->seo = new CupSeo($this->db, $this->baseUrl, $this->tituloSite);
+        $this->request = new CupRequestDispatcher($this, $this->renderer);
     }
 
     public function loadConfig($config) {
@@ -62,12 +72,7 @@ class CupCore {
     public function inicializar() {
         ob_start();
         @session_start();
-        $this->publicAssetsUrl = $this->url(array('public_assets'));
-        $this->renderer = new CupRenderer();
-        $this->db = new CupDataBase($this->config['dbParams']);
-        $this->router = new CupRouter();
-        $this->request = new CupRequestDispatcher($this->renderer);
-        $this->seo = new CupSeo($this->db, $this->baseUrl, $this->tituloSite);
+        $this->request->dispatch();
         ob_end_flush();
     }
 

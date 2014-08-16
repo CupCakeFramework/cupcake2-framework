@@ -135,9 +135,6 @@ bsaaaaaaaceeeeiiiidnoooooouuuyybyRr';
         return utf8_encode($string);
     }
 
-    /* ========================================================================================== */
-    /* Função para resumir descrição */
-
     public function resumirStr($texto, $n = 20) {
         $texto = strip_tags($texto);
         $texto = trim(preg_replace("/\s+/", " ", $texto));
@@ -170,10 +167,6 @@ bsaaaaaaaceeeeiiiidnoooooouuuyybyRr';
             return $obj;
         }
     }
-
-    /*
-     * Função para remover acentos de uma string
-     */
 
     public function removeAcentos($var) {
         return $this->normaliza($var);

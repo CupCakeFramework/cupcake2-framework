@@ -3,6 +3,7 @@
 namespace CupCake2\Core;
 
 use CupCake2\Core\CupRenderer;
+use CupCake2\Core\CupCore;
 
 class CupRequestDispatcher {
 
@@ -13,14 +14,19 @@ class CupRequestDispatcher {
     public $request;
 
     /**
-     * @var CupRenderer 
+     * @var CupCore 
+     */
+    private $app;
+
+    /**
+     * @var CupRenderer
      */
     public $renderer;
 
-    function __construct(CupRenderer $renderer) {
+    function __construct(CupCore $app, CupRenderer $renderer) {
+        $this->app = $app;
         $this->renderer = $renderer;
         $this->request = $_GET;
-        $this->run();
     }
 
     public function erro_404() {
@@ -40,7 +46,7 @@ class CupRequestDispatcher {
         exit;
     }
 
-    public function run() {
+    public function dispatch() {
         if (empty($this->request['a'])) {
             $this->request['a'] = 'home';
         }
