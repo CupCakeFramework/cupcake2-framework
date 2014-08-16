@@ -36,7 +36,7 @@ class CupRenderer {
         if (!file_exists($view)) {
             $view = $this->pastaTemplates . $nomeView . '.php';
             if (!file_exists($view)) {
-                die('Erro interno no componente renderizador !');
+                throw new Exception('A View $view não foi encontrada');
             }
         }
         return $this->render($view, $variaveis, $retornar);
