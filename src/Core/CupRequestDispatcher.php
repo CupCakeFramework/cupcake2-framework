@@ -27,7 +27,7 @@ class CupRequestDispatcher {
         header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found");
         header("Status: 404 Not Found");
         $_SERVER['REDIRECT_STATUS'] = 404;
-        $this->renderer->renderizar('nao_existe');
+        $this->renderer->renderizar('404');
     }
 
     public function redirect($url, $interno = true) {

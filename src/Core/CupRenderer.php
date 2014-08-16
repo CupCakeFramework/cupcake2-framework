@@ -6,8 +6,8 @@ use Exception;
 
 class CupRenderer {
 
-    private $pastaTemplates = 'App/Views/Templates/';
-    private $pastaViews = 'App/Views/';
+    private $pastaTemplates = 'app/views/templates/';
+    private $pastaViews = 'app/views/';
     public $template;
 
     public function renderizar($nomeView, $variaveis = array(), $retornar = false) {
