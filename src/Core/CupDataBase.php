@@ -15,7 +15,7 @@ class CupDataBase {
 
     public function __construct(array $dbParams, $isDevMode = false) {
         $paths = array(
-            "/app/models",
+            "/app/models/",
             "/cupcake2/models",
         );
         $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
