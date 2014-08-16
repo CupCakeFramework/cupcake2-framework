@@ -32,7 +32,7 @@ class CupRenderer {
 
     public function renderizarParcial($nomeView, $variaveis = array(), $retornar = false) {
         if (!is_array($variaveis)) {
-            throw new Exception("Variável "$variaveis" não é um array.");
+            throw new Exception("Variável \$variaveis não é um array");
         }
         $view = $this->pastaViews . $nomeView . '.php';
         if (!file_exists($view)) {
