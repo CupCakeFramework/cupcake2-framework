@@ -25,4 +25,8 @@ class CupController extends CupCore {
         $this->renderer->template = $template;
     }
 
+    public function metatags() {
+        return $this->seo->metatags();
+    }
+
 }

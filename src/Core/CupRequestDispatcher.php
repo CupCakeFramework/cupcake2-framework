@@ -56,8 +56,8 @@ class CupRequestDispatcher {
         }
         $this->paginaAtual = $this->request['a'];
         $acao = self::sulfixo_controle . $this->paginaSolicitada;
-        if (method_exists($this, $acao)) {
-            $reflection = new ReflectionMethod($this, $acao);
+        if (method_exists($this->app, $acao)) {
+            $reflection = new ReflectionMethod($this->app, $acao);
             $qtdArgumentos = $reflection->getNumberOfParameters();
             $parametros = array();
             $i = 0;
@@ -74,7 +74,7 @@ class CupRequestDispatcher {
                 }
             }
 
-            call_user_func_array(array($this, $acao), $parametros);
+            call_user_func_array(array($this->app, $acao), $parametros);
         } else {
             $this->erro_404();
         }
