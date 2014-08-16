@@ -15,8 +15,8 @@ class CupDataBase {
 
     public function __construct(array $dbParams, $isDevMode = false) {
         $paths = array(
-            "/app/Models",
-            "/Cupcake2/Models",
+            "/app/models",
+            "/cupcake2/models",
         );
         $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
         $this->entityManager = EntityManager::create($dbParams, $config);
