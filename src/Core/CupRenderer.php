@@ -17,16 +17,11 @@ class CupRenderer {
 
         $view = $this->pastaViews . $nomeView . '.php';
         if (!file_exists($view)) {
-            $view = 'Views/' . $nomeView . '.php';
-            if (!file_exists($view)) {
-                throw new Exception("A View $view não foi encontrada");
-            }
+            throw new Exception("A View $view não foi encontrada");
         }
         $template = $this->pastaTemplates . $this->template . '.php';
-
         $conteudo = $this->render($view, $variaveis, true);
         $variaveis['conteudo'] = $conteudo;
-
         return $this->render($template, $variaveis, $retornar);
     }
 
@@ -44,7 +39,7 @@ class CupRenderer {
         return $this->render($view, $variaveis, $retornar);
     }
 
-    public function render($arquivoParaRenderizar, $variaveis = array(), $retornar = false) {
+    protected function render($arquivoParaRenderizar, $variaveis = array(), $retornar = false) {
         ob_start();
         if (!empty($variaveis) && is_array($variaveis)) {
             extract($variaveis);
