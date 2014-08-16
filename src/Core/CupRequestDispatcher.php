@@ -4,6 +4,7 @@ namespace CupCake2\Core;
 
 use CupCake2\Core\CupRenderer;
 use CupCake2\Core\CupCore;
+use \ReflectionMethod;
 
 class CupRequestDispatcher {
 
