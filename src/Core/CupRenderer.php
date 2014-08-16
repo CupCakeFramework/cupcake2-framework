@@ -19,7 +19,7 @@ class CupRenderer {
         if (!file_exists($view)) {
             $view = 'app/content/sys_views/' . $nomeView . '.php';
             if (!file_exists($view)) {
-                throw new Exception('A View $view não foi encontrada');
+                throw new Exception("A View $view não foi encontrada");
             }
         }
         $template = $this->pastaTemplates . $this->template . '.php';
@@ -32,13 +32,13 @@ class CupRenderer {
 
     public function renderizarParcial($nomeView, $variaveis = array(), $retornar = false) {
         if (!is_array($variaveis)) {
-            throw new Exception('Variável "$variaveis" não é um array.');
+            throw new Exception("Variável "$variaveis" não é um array.");
         }
         $view = $this->pastaViews . $nomeView . '.php';
         if (!file_exists($view)) {
             $view = $this->pastaTemplates . $nomeView . '.php';
             if (!file_exists($view)) {
-                throw new Exception('A View $view não foi encontrada');
+                throw new Exception("A View $view não foi encontrada");
             }
         }
         return $this->render($view, $variaveis, $retornar);
