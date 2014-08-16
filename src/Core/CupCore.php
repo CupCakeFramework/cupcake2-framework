@@ -7,6 +7,7 @@ use CupCake2\Core\CupDataBase;
 use CupCake2\Core\CupSeo;
 use CupCake2\Core\CupRequestDispatcher;
 use CupCake2\Core\CupRenderer;
+use CupCake2\Core\CupUtils;
 
 class CupCore {
 
@@ -42,6 +43,12 @@ class CupCore {
      */
     public $renderer;
 
+    /**
+     *
+     * @var CupUtils 
+     */
+    public $utils;
+
     public function __construct(array $config) {
         $this->loadConfig($config);
         $this->publicAssetsUrl = $this->url(array('public_assets'));
@@ -50,6 +57,7 @@ class CupCore {
         $this->router = new CupRouter();
         $this->seo = new CupSeo($this->db, $this->baseUrl, $this->tituloSite);
         $this->request = new CupRequestDispatcher($this, $this->renderer);
+        $this->utils = new CupUtils();
     }
 
     public function loadConfig($config) {
