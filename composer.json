@@ -2,7 +2,7 @@
     "name": "ricardofiorani/cupcake2-framework",
     "description": "Framework PHP CupCake 2",
     "require": {
-        "doctrine/orm": "2.3.5"
+        "doctrine/orm": "*"
     },
     "autoload": {
         "psr-4": {
