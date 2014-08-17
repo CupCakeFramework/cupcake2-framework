@@ -4,7 +4,7 @@ namespace CupCake2\Core;
 
 use CupCake2\Core\CupCore;
 
-class CupController extends CupCore {
+class CupApp extends CupCore {
 
     private $templateInicial = 'template_padrao';
 
