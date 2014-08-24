@@ -13,11 +13,10 @@ class CupDataBase {
      */
     private $entityManager;
 
-    public function __construct(array $dbParams, $isDevMode = false) {
-        $paths = array(
-            "/app/models/",
-            "/cupcake2/models",
-        );
+    public function __construct(array $config, $isDevMode = false) {
+        $dbParams = $config['dbParams'];
+        $cupcakePath = array("/cupcake2/models");
+        $paths = array_merge($cupcakePath, $config['models_dir']);
         $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
         $this->entityManager = EntityManager::create($dbParams, $config);
     }
