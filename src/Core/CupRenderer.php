@@ -29,6 +29,10 @@ class CupRenderer {
             throw new Exception("A View $view não foi encontrada");
         }
         $template = $this->pastaTemplates . $this->template . '.php';
+        if (!file_exists($template)) {
+            throw new Exception("O template $template não foi encontrado");
+        }
+        
         $conteudo = $this->render($view, $variaveis, true);
         $variaveis['conteudo'] = $conteudo;
         return $this->render($template, $variaveis, $retornar);

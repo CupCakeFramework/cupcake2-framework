@@ -6,7 +6,7 @@ use CupCake2\Core\CupCore;
 
 class CupApp extends CupCore {
 
-    private $templateInicial = 'template_padrao';
+    private $templateInicial = 'main_template';
 
     public function inicializar() {
         $this->renderer->template = $this->templateInicial;
