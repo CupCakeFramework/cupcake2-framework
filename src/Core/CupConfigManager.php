@@ -9,6 +9,7 @@ class CupConfigManager {
 
     function __construct($environment) {
         $this->environment = $environment;
+        $this->loadConfig();
     }
 
     public function loadConfig() {
@@ -43,6 +44,10 @@ class CupConfigManager {
     
     public function getEnvironmentConfigFromKey($key){
         return $this->environment[$key];
+    }
+    
+    public function getConfigFromKey($key){
+        return $this->config[$key];
     }
 
 }
