@@ -44,8 +44,7 @@ class CupConfigManager {
             $moduleClass = new $moduleClassName;
             $config = array_merge($config, $moduleClass->getConfig());
         }
-        print_r($config);
-        die();
+        CupUtils::debug($config);
     }
 
     public function getEnvironmentConfigFromKey($key) {
