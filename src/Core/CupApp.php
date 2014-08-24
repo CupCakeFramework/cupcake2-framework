@@ -29,4 +29,8 @@ class CupApp extends CupCore {
         return $this->seo->metatags();
     }
 
+    public function dbg($var, $tipo = 2) {
+        return $this->utils->dbg($var, $tipo);
+    }
+
 }
