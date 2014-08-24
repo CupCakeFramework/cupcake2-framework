@@ -19,7 +19,7 @@ class CupDataBase {
      * @var CupConfigManager 
      */
     private $configManager;
-    
+
     public function __construct(CupConfigManager $config, $isDevMode = false) {
         $this->configManager = $config;
         $dbParams = $this->configManager->getEnvironmentConfigFromKey('dbParams');
@@ -27,8 +27,8 @@ class CupDataBase {
         $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
         $this->entityManager = EntityManager::create($dbParams, $config);
     }
-    
-    public function getEntityPaths(){
+
+    public function getEntityPaths() {
         $paths = $this->configManager->getConfigFromKey('models_dir');
         return $paths;
     }
@@ -46,7 +46,7 @@ class CupDataBase {
     }
 
     /**
-     * @return Doctrine\ORM\EntityManager
+     * @return EntityManager
      */
     public function getEntityManager() {
         return $this->entityManager;

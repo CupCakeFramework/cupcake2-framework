@@ -1,6 +1,6 @@
 <?php
 
-namespace Config\Fixture;
+namespace CupCake2\Fixture;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\FixtureInterface;
