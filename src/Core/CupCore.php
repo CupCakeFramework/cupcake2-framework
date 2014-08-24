@@ -63,7 +63,7 @@ class CupCore {
 
     public function __construct($environment) {
         $this->environment = $environment;
-        $this->config = new CupConfigManager($environment);
+        $this->config = new CupConfigManager($this->environment);
         $this->publicAssetsUrl = $this->url(array('public_assets'));
         $this->renderer = new CupRenderer($this);
         $this->db = new CupDataBase($this->config);

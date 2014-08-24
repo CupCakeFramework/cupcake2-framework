@@ -4,6 +4,7 @@ namespace CupCake2\Core;
 
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
+use CupCake2\Core\CupConfigManager;
 
 class CupDataBase {
 
@@ -13,12 +14,22 @@ class CupDataBase {
      */
     private $entityManager;
 
-    public function __construct(array $config, $isDevMode = false) {
-        $dbParams = $config['dbParams'];
-        $cupcakePath = array("/cupcake2/models");
-        $paths = array_merge($cupcakePath, $config['models_dir']);
+    /**
+     *
+     * @var CupConfigManager 
+     */
+    private $configManager;
+    
+    public function __construct(CupConfigManager $config, $isDevMode = false) {
+        $this->configManager = $config;
+        $dbParams = $this->configManager->getEnvironmentConfigFromKey('dbParams');
+        $paths = $this->getEntityPaths();
         $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
         $this->entityManager = EntityManager::create($dbParams, $config);
+    }
+    
+    public function getEntityPaths(){
+        
     }
 
     public function buscarUmPorId($entidade, $id) {

@@ -40,5 +40,9 @@ class CupConfigManager {
         print_r($this->environment);
         die();
     }
+    
+    public function getEnvironmentConfigFromKey($key){
+        return $this->environment[$key];
+    }
 
 }
