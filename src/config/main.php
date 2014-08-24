@@ -2,6 +2,6 @@
 
 return array(
     'models_dir' => array(
-        dirname(__FILE__) . '/../models/'
+        'CupCake2' => dirname(__FILE__) . '/../models/'
     ),
 );
