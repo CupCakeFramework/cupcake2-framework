@@ -8,6 +8,7 @@ use CupCake2\Core\CupSeo;
 use CupCake2\Core\CupRequestDispatcher;
 use CupCake2\Core\CupRenderer;
 use CupCake2\Core\CupUtils;
+use CupCake2\Core\CupConfigManager;
 
 class CupCore {
 
@@ -16,6 +17,11 @@ class CupCore {
     public $titulo;
     public $tituloSite;
     public $publicAssetsUrl;
+
+    /**
+     *
+     * @var CupConfigManager;
+     */
     public $config;
 
     /**
@@ -48,9 +54,16 @@ class CupCore {
      * @var CupUtils 
      */
     public $utils;
+    
+    /**
+     * Arquivo de configurações do ambiente
+     * @var Array 
+     */
+    public $environment;
 
-    public function __construct(array $config) {
-        $this->loadConfig($config);
+    public function __construct($environment) {
+        $this->environment = $environment;
+        $this->config = new CupConfigManager($environment);
         $this->publicAssetsUrl = $this->url(array('public_assets'));
         $this->renderer = new CupRenderer($this);
         $this->db = new CupDataBase($this->config);
@@ -60,23 +73,7 @@ class CupCore {
         $this->utils = new CupUtils();
     }
 
-    public function loadConfig($config) {
-        $this->config = $config;
-        if (!empty($this->config['BASE_URL'])) {
-            $this->baseUrl = $this->config['BASE_URL'];
-        }
-        if (!empty($this->config['SITE_URL'])) {
-            $this->siteUrl = $this->config['SITE_URL'];
-        }
-        if (!empty($this->config['TITULO_SITE'])) {
-            $this->tituloSite = $this->config['TITULO_SITE'];
-        }
-
-        if (empty($this->baseUrl) || empty($this->siteUrl) || empty($this->tituloSite)) {
-            die('Por favor configure seu arquivo "config/main.php" corretamente');
-        }
-    }
-
+    
     public function inicializar() {
         ob_start();
         session_start();
