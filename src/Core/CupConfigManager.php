@@ -14,23 +14,6 @@ class CupConfigManager {
 
     public function loadConfig() {
         $this->config = $this->loadAllModuleConfigs();
-        $this->checkValidConfig();
-    }
-
-    public function checkValidConfig() {
-        if (!empty($this->config['BASE_URL'])) {
-            $this->baseUrl = $this->config['BASE_URL'];
-        }
-        if (!empty($this->config['SITE_URL'])) {
-            $this->siteUrl = $this->config['SITE_URL'];
-        }
-        if (!empty($this->config['TITULO_SITE'])) {
-            $this->tituloSite = $this->config['TITULO_SITE'];
-        }
-
-        if (empty($this->baseUrl) || empty($this->siteUrl) || empty($this->tituloSite)) {
-            die('Por favor configure seu arquivo "config/app.config.php" corretamente');
-        }
     }
 
     public function getConfig() {

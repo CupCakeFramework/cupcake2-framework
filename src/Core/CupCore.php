@@ -54,7 +54,7 @@ class CupCore {
      * @var CupUtils 
      */
     public $utils;
-    
+
     /**
      * Arquivo de configurações do ambiente
      * @var Array 
@@ -73,12 +73,28 @@ class CupCore {
         $this->utils = new CupUtils();
     }
 
-    
     public function inicializar() {
         ob_start();
         session_start();
+        $this->prepare();
         $this->request->dispatch();
         ob_end_flush();
+    }
+
+    public function prepare() {
+        if (!empty($this->environment['BASE_URL'])) {
+            $this->baseUrl = $this->environment['BASE_URL'];
+        }
+        if (!empty($this->environment['SITE_URL'])) {
+            $this->siteUrl = $this->environment['SITE_URL'];
+        }
+        if (!empty($this->environment['TITULO_SITE'])) {
+            $this->tituloSite = $this->environment['TITULO_SITE'];
+        }
+
+        if (empty($this->baseUrl) || empty($this->siteUrl) || empty($this->tituloSite)) {
+            die('Por favor configure seu arquivo "config/app.config.php" corretamente');
+        }
     }
 
     /**
