@@ -13,7 +13,7 @@ class CupConfigManager {
     }
 
     public function loadConfig() {
-        $this->config = $this->loadAllConfigFiles();
+        $this->config = $this->loadAllModuleConfigs();
         $this->checkValidConfig();
     }
 
@@ -37,16 +37,22 @@ class CupConfigManager {
         return $this->config;
     }
 
-    public function loadAllConfigFiles() {
-        print_r($this->environment);
+    public function loadAllModuleConfigs() {
+        $config = array();
+        foreach ($this->environment['modules'] as $module) {
+            $moduleClassName = "\\$module\\Module";
+            $moduleClass = new $moduleClassName;
+            $config = array_merge($config, $moduleClass->getConfig());
+        }
+        print_r($config);
         die();
     }
-    
-    public function getEnvironmentConfigFromKey($key){
+
+    public function getEnvironmentConfigFromKey($key) {
         return $this->environment[$key];
     }
-    
-    public function getConfigFromKey($key){
+
+    public function getConfigFromKey($key) {
         return $this->config[$key];
     }
 
