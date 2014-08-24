@@ -30,8 +30,6 @@ class CupDataBase {
     
     public function getEntityPaths(){
         $paths = $this->configManager->getConfigFromKey('models_dir');
-        CupUtils::debug($paths);
-        die();
         return $paths;
     }
 
