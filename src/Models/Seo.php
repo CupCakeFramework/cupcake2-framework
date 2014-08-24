@@ -2,15 +2,10 @@
 
 namespace CupCake2\Models;
 
-use InvalidArgumentException;
-
 /**
  * @Entity @Table(name="cup_seo")
  * */
 class Seo {
-
-    const ATIVO_SIM = 'Sim';
-    const ATIVO_NAO = 'Não';
 
     /** @Id @Column(type="integer") @GeneratedValue * */
     protected $id;
@@ -24,7 +19,7 @@ class Seo {
     /** @Column(type="string") * */
     protected $description;
 
-    /** @Column(type="string") * */
+    /** @Column(type="boolean") * */
     protected $ativo;
 
     public function getId() {
@@ -60,9 +55,6 @@ class Seo {
     }
 
     public function setAtivo($ativo) {
-        if (!in_array($ativo, array(self::ATIVO_NAO, self::ATIVO_SIM))) {
-            throw new InvalidArgumentException("Opção Inválida");
-        }
         $this->ativo = $ativo;
     }
 
