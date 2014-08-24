@@ -22,8 +22,12 @@ class CupDataBase {
         $this->entityManager = EntityManager::create($dbParams, $config);
     }
 
-    public function buscarUm($entidade, $id) {
+    public function buscarUmPorId($entidade, $id) {
         return $this->getEntityManager()->find($entidade, $id);
+    }
+
+    public function buscarUmPorCriteria($entity, array $criteria, array $orderBy = null) {
+        return $this->getEntityManager()->getRepository($entity)->findOneBy($criteria, $orderBy);
     }
 
     public function buscarTodos($entidade) {
