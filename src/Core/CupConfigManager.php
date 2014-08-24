@@ -27,7 +27,7 @@ class CupConfigManager {
             $moduleClass = new $moduleClassName;
             $config = array_merge_recursive($config, $moduleClass->getConfig());
         }
-        $this->config = $config;
+        return $config;
     }
 
     public function getEnvironmentConfigFromKey($key) {

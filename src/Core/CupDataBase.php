@@ -29,7 +29,10 @@ class CupDataBase {
     }
     
     public function getEntityPaths(){
-        return $this->configManager->getConfigFromKey('models_dir');
+        $paths = $this->configManager->getConfigFromKey('models_dir');
+        CupUtils::debug($paths);
+        die();
+        return $paths;
     }
 
     public function buscarUmPorId($entidade, $id) {
