@@ -74,7 +74,6 @@ class CupRequestDispatcher {
                     $parametros[$index + count($parametros) + 1] = '';
                 }
             }
-
             call_user_func_array(array($this->app, $acao), $parametros);
         } else {
             $this->erro_404();

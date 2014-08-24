@@ -73,13 +73,13 @@ class CupCore {
         }
 
         if (empty($this->baseUrl) || empty($this->siteUrl) || empty($this->tituloSite)) {
-            die('Por favor configure seu arquivo "Config/main.php" corretamente');
+            die('Por favor configure seu arquivo "config/main.php" corretamente');
         }
     }
 
     public function inicializar() {
         ob_start();
-        @session_start();
+        session_start();
         $this->request->dispatch();
         ob_end_flush();
     }
