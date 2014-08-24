@@ -29,7 +29,7 @@ class CupConfigManager {
         }
 
         if (empty($this->baseUrl) || empty($this->siteUrl) || empty($this->tituloSite)) {
-            die('Por favor configure seu arquivo "config/main.php" corretamente');
+            die('Por favor configure seu arquivo "config/app.config.php" corretamente');
         }
     }
 
@@ -42,7 +42,7 @@ class CupConfigManager {
         foreach ($this->environment['modules'] as $module) {
             $moduleClassName = "\\$module\\Module";
             $moduleClass = new $moduleClassName;
-            $config = array_merge($config, $moduleClass->getConfig());
+            $config = array_merge_recursive($config, $moduleClass->getConfig());
         }
         CupUtils::debug($config);
     }
