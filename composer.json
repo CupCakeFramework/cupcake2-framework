@@ -2,7 +2,9 @@
     "name": "cupcake-framework/cupcake2-framework",
     "description": "Framework PHP CupCake 2",
     "require": {
-        "doctrine/orm": "2.4"
+        "doctrine/orm": "2.4",
+        "cupcake-framework/cupcake2-cuprenderer": "dev"
+        
     },
     "autoload": {
         "psr-4": {
