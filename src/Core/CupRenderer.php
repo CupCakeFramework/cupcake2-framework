@@ -6,39 +6,64 @@ use Exception;
 
 class CupRenderer {
 
-    private $pastaTemplates = 'app/views/templates/';
-    private $pastaViews = 'app/views/';
-    public $template;
+    /**
+     * Array with all templates folder
+     * @var Array 
+     */
+    public $templatesFolder;
 
     /**
-     * @var SiteController 
+     * Array with all views folder
+     * @var Array 
      */
-    public $app;
+    public $viewsFolder;
 
-    function __construct($app) {
-        $this->app = $app;
+    /**
+     * The template file to be rendered
+     * @var String 
+     */
+    public $templateFile;
+
+    function __construct(Array $templatesFolder, Array $viewsFolder) {
+        $this->templatesFolder = $templatesFolder;
+        $this->viewsFolder = $viewsFolder;
     }
 
-    public function renderizar($nomeView, $variaveis = array(), $retornar = false) {
-        if (!is_array($variaveis)) {
-            throw new Exception("Variável ''$variaveis'' não é um array.");
-        }
+    public function getTemplateFile() {
+        return $this->templateFile;
+    }
 
-        $view = $this->pastaViews . $nomeView . '.php';
-        if (!file_exists($view)) {
-            throw new Exception("A View $view não foi encontrada");
+    public function setTemplateFile(String $templateFile) {
+        $this->templateFile = $templateFile;
+    }
+
+    private function resolveTemplate($templateFile) {
+        foreach ($this->templatesFolder as $templateFolder) {
+            if (file_exists($templateFolder . $templateFile)) {
+                return $templateFolder . $templateFile;
+            }
         }
-        $template = $this->pastaTemplates . $this->template . '.php';
-        if (!file_exists($template)) {
-            throw new Exception("O template $template não foi encontrado");
+        throw new Exception("O template $templateFile não foi encontrado em nenhum diretório do mapa de diretórios");
+    }
+
+    private function resolveView($viewFile) {
+        foreach ($this->viewsFolder as $viewFolder) {
+            if (file_exists($viewFolder . $viewFile)) {
+                return $viewFolder . $viewFile;
+            }
         }
-        
-        $conteudo = $this->render($view, $variaveis, true);
+        throw new Exception("A View $viewFile não foi encontrada em nenhum diretório do mapa de diretórios");
+    }
+
+    public function render($viewFile, $variaveis = array(), $retornar = false) {
+        $view = $this->resolveView($viewFile);
+        $template = $this->resolveTemplate($this->templateFile);
+        $conteudo = $this->_render($view, $variaveis, true);
         $variaveis['conteudo'] = $conteudo;
-        return $this->render($template, $variaveis, $retornar);
+        return $this->_render($template, $variaveis, $retornar);
     }
 
-    public function renderizarParcial($nomeView, $variaveis = array(), $retornar = false) {
+    public function renderPartial($nomeView, $variaveis = array(), $retornar = false) {
         if (!is_array($variaveis)) {
             throw new Exception("Variável \$variaveis não é um array");
         }
@@ -49,10 +74,10 @@ class CupRenderer {
                 throw new Exception("A View $view não foi encontrada");
             }
         }
-        return $this->render($view, $variaveis, $retornar);
+        return $this->_render($view, $variaveis, $retornar);
     }
 
-    protected function render($arquivoParaRenderizar, $variaveis = array(), $retornar = false) {
+    protected function _render($arquivoParaRenderizar, $variaveis = array(), $retornar = false) {
         ob_start();
         if (!empty($variaveis) && is_array($variaveis)) {
             extract($variaveis);

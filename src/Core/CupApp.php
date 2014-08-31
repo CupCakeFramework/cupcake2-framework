@@ -14,11 +14,11 @@ class CupApp extends CupCore {
     }
 
     public function renderizar($nomeView, $variaveis = array(), $retornar = false) {
-        return $this->renderer->renderizar($nomeView, $variaveis, $retornar);
+        return $this->renderer->render($nomeView, $variaveis, $retornar);
     }
 
     public function renderizarParcial($nomeView, $variaveis = array(), $retornar = false) {
-        return $this->renderer->renderizarParcial($nomeView, $variaveis, $retornar);
+        return $this->renderer->renderPartial($nomeView, $variaveis, $retornar);
     }
 
     public function setTemplate($template) {

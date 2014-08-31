@@ -9,6 +9,7 @@ use CupCake2\Core\CupRequestDispatcher;
 use CupCake2\Core\CupRenderer;
 use CupCake2\Core\CupUtils;
 use CupCake2\Core\CupConfigManager;
+use CupCake2\Core\CupViewExplorer;
 
 class CupCore {
 
@@ -60,12 +61,18 @@ class CupCore {
      * @var Array 
      */
     public $environment;
+    
+    /**
+     * @var CupViewExplorer 
+     */
+    public $viewExplorer;
 
     public function __construct($environment) {
         $this->environment = $environment;
         $this->configManager = new CupConfigManager($this->environment);
         $this->publicAssetsUrl = $this->url(array('public_assets'));
-        $this->renderer = new CupRenderer($this);
+        $this->viewExplorer = new CupViewExplorer($this->configManager);
+        $this->renderer = new CupRenderer($this->viewExplorer,$this);
         $this->db = new CupDataBase($this->configManager);
         $this->router = new CupRouter();
         $this->seo = new CupSeo($this->db, $this->baseUrl, $this->tituloSite);
